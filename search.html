@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search</title>
+    <style>
+      /* Your CSS */
+    </style>
+
+    <script>
+      // >>> fake data
+      const items = [
+        {
+          id: 1,
+          image:
+            "https://images.folloze.com/image/upload/v1450949154/folloze-image-gallery/campaign/heroimage01.png",
+          title: "Space Mobile The Final Frontier",
+        },
+        {
+          id: 2,
+          image:
+            "https://images.folloze.com/image/upload/v1450949153/folloze-image-gallery/campaign/heroimage13.png",
+          title: "What if They Let You Run The Hubble Mobile",
+        },
+        {
+          id: 3,
+          image:
+            "https://images.folloze.com/image/upload/v1450949153/folloze-image-gallery/campaign/heroimage04.png",
+          title: "Shooting Stars Mobile",
+        },
+        {
+          id: 4,
+          image:
+            "https://images.folloze.com/image/upload/v1450949149/folloze-image-gallery/campaign/heroimage11.png",
+          title: "Make Money Online Through Advertising",
+        },
+        {
+          id: 5,
+          image:
+            "https://images.folloze.com/image/upload/v1450949143/folloze-image-gallery/campaign/heroimage08.png",
+          title: "What Makes Flyers Unrivaled",
+        },
+        {
+          id: 6,
+          image:
+            "https://images.folloze.com/image/upload/v1450948643/folloze-image-gallery/campaign/heroimage05.png",
+          title: "Adwords Keywork Research For Beginners",
+        },
+      ];
+
+      const boards = [
+        {
+          id: 1,
+          image:
+            "https://images.folloze.com/image/upload/v1458832608/folloze-image-gallery/customer/customer_03.png",
+          title: "The Baiscs Of Buying A Telescope Mobile",
+        },
+        {
+          id: 2,
+          image:
+            "https://images.folloze.com/image/upload/v1450949395/folloze-image-gallery/customer/customer_02.png",
+          title: "The Universe Through A Child Eyes Mobile",
+        },
+        {
+          id: 3,
+          image:
+            "https://images.folloze.com/image/upload/v1450949032/folloze-image-gallery/customer/customer_04.png",
+          title: "Home Business Advertising Ideas Mobile",
+        },
+        {
+          id: 4,
+          image:
+            "https://images.folloze.com/image/upload/v1450949131/folloze-image-gallery/group/group_01.png",
+          title:
+            "Finally A Top Mobile Way You Can Google Adwords Pay Per Clicks",
+        },
+        {
+          id: 5,
+          image:
+            "https://images.folloze.com/image/upload/v1450949052/folloze-image-gallery/group/group_02.png",
+          title: "Study 800 Numbers Still Popula With Advertisers Mobile",
+        },
+        {
+          id: 6,
+          image:
+            "https://images.folloze.com/image/upload/v1450948179/folloze-image-gallery/generic/generic_06.png",
+          title: "Using Banner Stands To Increase Trade Show Traffic",
+        },
+      ];
+      /// <<< fake data
+
+      // >>> http/HttpCommand.js
+      const HTTP_METHOD = {
+        GET: "GET",
+        POST: "POST",
+        DELETE: "DELETE",
+        PUT: "PUT",
+        PATCH: "PATCH",
+      };
+
+      const HttpCommand = function (method, url, data, headers) {
+        let httpMethod = HTTP_METHOD[method.toUpperCase()];
+        if (!httpMethod) throw `http method ${method} not exists.`;
+
+        this.method = httpMethod;
+        this.url = url;
+        this.data = data;
+        this.headers = headers;
+      };
+      // <<< http/HttpCommand.js
+
+      // >>> http/HttpRequest.js
+      const HttpRequest = function (command) {
+        this.execute = async () => {
+          return new Promise((resolve, reject) => {
+            /** in the real world, the code will be like:
+            return fetch({...command})
+            */
+
+            //todo: search items
+            //NOTE: this search logic will be on the server
+            const results = items[0];
+
+            // fake error response, shoud not be happen in this code.
+            if (!results) {
+              return setTimeout(
+                () => reject(new Error("no results found")),
+                150
+              );
+            }
+
+            // fake 200 OK response
+            setTimeout(() => resolve(results), 150);
+          });
+        };
+      };
+      // <<< http/HttpRequest.js
+
+      // >>> ApiService.js
+      const ApiService = {
+        search: async (term) => {
+          let cmd = new HttpCommand(
+            "get",
+            "//content.folloze.com/api/v1/search?term={term}",
+            {},
+            {}
+          );
+          let request = new HttpRequest(cmd);
+          return request.execute();
+        },
+      };
+      // <<< ApiService.js
+
+      // >>> app.js
+      const app = async () => {
+        //todo: initializations
+
+        // TODO: REMOVE THIS CODE
+        // handler for OnClick event
+        ApiService.search(1)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      // <<< app.js
+
+      // >>> index.js
+      /// import app from './app'
+      document.addEventListener("DOMContentLoaded", app);
+      // <<< index.js
+    </script>
+  </head>
+
+  <body>
+    <!-- Your HTML elements -->
+  </body>
+</html>
